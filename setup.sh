@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
-echo "Setting up Claude Code sync from ~/.claude-config ..."
-ln -sf ~/.claude-config/skills ~/.claude/skills
-echo "  ~/.claude/skills -> ~/.claude-config/skills"
-ln -sf ~/.claude-config/settings.json ~/.claude/settings.json
-echo "  ~/.claude/settings.json -> ~/.claude-config/settings.json"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+ln -sf "${SCRIPT_DIR}/skills" ~/.claude/skills
+ln -sf "${SCRIPT_DIR}/settings.json" ~/.claude/settings.json
+echo "Done. ~/.claude/skills -> ${SCRIPT_DIR}/skills"
+echo "      ~/.claude/settings.json -> ${SCRIPT_DIR}/settings.json"
