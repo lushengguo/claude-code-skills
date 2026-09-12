@@ -30,10 +30,10 @@
       "Bash(conan *)",
       "Bash(./*)",
       "Bash(bazel *)",
-      "Write(/home/*/projects/**)",
-      "Write(/Users/*/projects/**)",
-      "Write(/mnt/*/projects/**)",
-      "Write(/tmp/claude_sandbox/**)",
+      "Edit(/home/*/projects/**)",
+      "Edit(/Users/*/projects/**)",
+      "Edit(/mnt/*/projects/**)",
+      "Edit(/tmp/claude_sandbox/**)",
       "Read(**)"
     ],
     "deny": [
@@ -48,15 +48,15 @@
       "Bash(mkfs.*)",
       "Bash(curl * | sh)",
       "Bash(wget * -O- | sh)",
-      "Write(/etc/**)",
-      "Write(/bin/**)",
-      "Write(/boot/**)",
-      "Write(/dev/**)",
-      "Write(/sys/**)",
-      "Write(/proc/**)",
-      "Write(/root/**)",
-      "Write(~/.ssh/**)",
-      "Write(~/.gnupg/**)"
+      "Edit(/etc/**)",
+      "Edit(/bin/**)",
+      "Edit(/boot/**)",
+      "Edit(/dev/**)",
+      "Edit(/sys/**)",
+      "Edit(/proc/**)",
+      "Edit(/root/**)",
+      "Edit(~/.ssh/**)",
+      "Edit(~/.gnupg/**)"
     ],
     "defaultMode": "auto"
   },
@@ -64,5 +64,50 @@
     "clangd-lsp@claude-plugins-official": true
   },
   "theme": "dark",
-  "skipWorkflowUsageWarning": true
+  "skipWorkflowUsageWarning": true,
+  "hooks": {
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "cfp hook --platform=claude"
+          }
+        ]
+      }
+    ],
+    "PermissionRequest": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "cfp hook --platform=claude"
+          }
+        ],
+        "matcher": "Bash|PowerShell|Edit|MultiEdit|Write|NotebookEdit"
+      }
+    ],
+    "PreToolUse": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "cfp hook --platform=claude"
+          }
+        ],
+        "matcher": "AskUserQuestion"
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash /root/.claude/hooks/user-prompt-handler.sh",
+            "timeout": 5000
+          }
+        ]
+      }
+    ]
+  }
 }

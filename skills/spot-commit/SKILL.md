@@ -42,10 +42,10 @@ git status --short && git diff --stat HEAD
 格式化所有 C++ 文件（排除 build 目录和第三方代码）：
 
 ```bash
-find . \( -name ".git" -o -name "build" -o -name "build-*" -o -name "kcex-marketdata" -o -name "third_party" -o -name "logs" \) -prune -o \( -name "*.cpp" -o -name "*.hpp" -o -name "*.h" -o -name "*.cc" -o -name "*.hh" \) -print0 | xargs -0 -r clang-format -i
+find . -name "*.cpp" -or -name "*.hpp" | grep -v _deps | grep -v build | xargs clang-format -i
 ```
 
-格式化后重新检查 `git diff`——如果有纯格式变动，和用户确认后再继续。
+格式化后重新检查 `git diff`——如果有纯格式变动，无需和用户确认, 直接继续。
 
 ### 5. 提交子模块
 
